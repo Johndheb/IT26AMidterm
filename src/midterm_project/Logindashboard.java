@@ -16,6 +16,7 @@ public class Logindashboard extends javax.swing.JFrame {
      */
     public Logindashboard() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -201,6 +202,9 @@ public class Logindashboard extends javax.swing.JFrame {
 
     private void jButtonsignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonsignupActionPerformed
         // TODO add your handling code here:
+        Signupdashboard dashh = new Signupdashboard();
+        dashh.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButtonsignupActionPerformed
 
     /**

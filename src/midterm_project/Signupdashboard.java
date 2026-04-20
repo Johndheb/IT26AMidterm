@@ -1,7 +1,10 @@
 
 package midterm_project;
 
-
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 public class Signupdashboard extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Signupdashboard.class.getName());
@@ -11,6 +14,7 @@ public class Signupdashboard extends javax.swing.JFrame {
      */
     public Signupdashboard() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -37,6 +41,11 @@ public class Signupdashboard extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(0, 51, 51));
 
         jButtonback.setText("BACK");
+        jButtonback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonbackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -127,7 +136,54 @@ public class Signupdashboard extends javax.swing.JFrame {
 
     private void jButtonregisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonregisterActionPerformed
         // TODO add your handling code here:
+        String username = jTextFieldusername.getText();
+        String password = new String(jPasswordFieldpassword.getPassword());
+
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill all fields!");
+            return;
+        }
+
+        try {
+            Connection conn = ConnectionDatabase.getConnection();
+
+            // check duplicate username
+            String checkSql = "SELECT * FROM users WHERE username=?";
+            PreparedStatement checkPst = conn.prepareStatement(checkSql);
+            checkPst.setString(1, username);
+
+            ResultSet rs = checkPst.executeQuery();
+
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Username already exists!");
+                return;
+            }
+
+            // INSERT (PLAIN TEXT PASSWORD)
+            String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+            PreparedStatement pst = conn.prepareStatement(sql);
+
+            pst.setString(1, username);
+            pst.setString(2, password); // ✅ PLAIN TEXT ONLY
+
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Registration Successful!");
+
+            new Logindashboard().setVisible(true);
+            dispose();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
     }//GEN-LAST:event_jButtonregisterActionPerformed
+
+    private void jButtonbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonbackActionPerformed
+        // TODO add your handling code here:
+        Logindashboard dashh = new Logindashboard();
+        dashh.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButtonbackActionPerformed
 
     /**
      * @param args the command line arguments

@@ -99,7 +99,7 @@ public class Logindashboard extends javax.swing.JFrame {
         jPasswordField1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jPasswordField1.setForeground(new java.awt.Color(255, 255, 255));
 
-        jButtonsignin.setText("SIGN-IN");
+        jButtonsignin.setText("LOGIN");
         jButtonsignin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonsigninActionPerformed(evt);
@@ -172,10 +172,10 @@ public class Logindashboard extends javax.swing.JFrame {
         Connection conn = ConnectionDatabase.getConnection();
 
     try {
-        String sql = "SELECT * FROM users WHERE username=? AND password=?";
+        String sql = "SELECT * FROM user WHERE username=? AND password=?";
         PreparedStatement pst = conn.prepareStatement(sql);
 
-        String user = username.getText();
+        String user = jTextField1.getText();
         String pass = new String(jPasswordField1.getPassword());
 
         pst.setString(1, user);

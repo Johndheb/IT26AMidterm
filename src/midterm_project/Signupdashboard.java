@@ -148,7 +148,7 @@ public class Signupdashboard extends javax.swing.JFrame {
             Connection conn = ConnectionDatabase.getConnection();
 
             // check duplicate username
-            String checkSql = "SELECT * FROM users WHERE username=?";
+            String checkSql = "SELECT * FROM user WHERE username=?";
             PreparedStatement checkPst = conn.prepareStatement(checkSql);
             checkPst.setString(1, username);
 
@@ -160,11 +160,11 @@ public class Signupdashboard extends javax.swing.JFrame {
             }
 
             // INSERT (PLAIN TEXT PASSWORD)
-            String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+            String sql = "INSERT INTO user (username, password) VALUES (?, ?)";
             PreparedStatement pst = conn.prepareStatement(sql);
 
             pst.setString(1, username);
-            pst.setString(2, password); // ✅ PLAIN TEXT ONLY
+            pst.setString(2, password); 
 
             pst.executeUpdate();
 
